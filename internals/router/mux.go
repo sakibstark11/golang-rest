@@ -8,9 +8,10 @@ import (
 
 func New(db *sql.DB) *http.ServeMux {
 	mux := http.NewServeMux()
+	todoHandler := todo.NewHandler(db)
 
-	mux.HandleFunc("/todos", todo.Todos(db))
-	mux.HandleFunc("/todos/", todo.TodoByID(db))
+	mux.HandleFunc("/todos", todoHandler.Todos)
+	mux.HandleFunc("/todos/{id}", todoHandler.TodoByID)
 
 	return mux
 }
